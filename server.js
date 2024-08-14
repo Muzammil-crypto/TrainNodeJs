@@ -1,22 +1,30 @@
 import http from "http";
+import url from "url";
+import fs from "fs/promises";
+import path from "path";
 const PORT = process.env.PORT;
 
-const server = http.createServer((req, res) => {
-  // res.setHeader('Content-Type', 'text/plain');
-  // res.setHeader('Content-Type', 'text/html');
-  // res.statusCode = 400;
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+console.log(__filename);
+console.log(__dirname);
+
+const server = http.createServer(async (req, res) => {
   try {
     if (req.method === "GET") {
+      let filePath;
       if (req.url === "/") {
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.end("<h1> HELLO MY WORLD AT HOME</h1>");
+        filePath = path.join(__dirname, "public", "index.html");
       } else if (req.url === "/about") {
-        res.writeHead(200, { "Content-Type": "text/html" });
-        res.end("<h1> HELLO MY WORLD AT ABOUT</h1>");
+        filePath = path.join(__dirname, "public", "about.html");
       } else {
-        res.writeHead(404, { "Content-Type": "text/html" });
-        res.end("<h1>PAGE NOT FOUND</h1>");
+        throw new Error("This page is not found");
       }
+      const data = await fs.readFile(filePath);
+      res.setHeader("Content-Type", "text/html");
+      res.write(data);
+      res.end();
     } else {
       throw new Error("Method Not Allowed");
     }
