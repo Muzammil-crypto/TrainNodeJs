@@ -5,8 +5,11 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "start": "node start server.js"
+    "start": "node server.js"
   },
   "author": "Muzammil",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
 }
