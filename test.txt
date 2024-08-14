@@ -1,1 +1,2 @@
 Hello I am writing to this file
+ this is the text appended to our test file
