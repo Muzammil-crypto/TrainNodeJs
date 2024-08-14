@@ -29,8 +29,25 @@ const jsonMiddleWare = (req, res, next) => {
 // Route Handler
 
 const getUsersHandler = (req, res) => {
-    res.write(JSON.stringify(users));
+  res.write(JSON.stringify(users));
+  res.end();
+};
+
+//ROute handler for post request  api/users
+
+const createUserHandler = (req, res) => {
+  let body = "";
+  // listen for the data
+  req.on("data", (chunk) => {
+    body += chunk.toString();
+  });
+  req.on("end", () => {
+    const newUser = JSON.parse(body);
+    users.push(newUser);
+    res.statusCode = 201;
+    res.write(JSON.stringify(newUser));
     res.end();
+  });
 };
 
 const getUserByIdHandler = (req, res) => {
@@ -69,8 +86,10 @@ const server = createServer((req, res) => {
         req.method === "GET"
       ) {
         getUserByIdHandler(req, res);
-      }else {
-      notFoundHandler(req, res);
+      } else if (req.url === "/api/users" && req.method === "POST") {
+        createUserHandler(req, res);
+      } else {
+        notFoundHandler(req, res);
       }
     });
   });
