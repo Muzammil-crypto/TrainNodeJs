@@ -1,0 +1,12 @@
+{
+  "name": "nodejs_backend_course",
+  "version": "1.0.0",
+  "description": "First Todo App",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node start server.js"
+  },
+  "author": "Muzammil",
+  "license": "MIT"
+}
